@@ -14,7 +14,7 @@ public class MountainReaderContract {
 
     // Inner class that defines the Mountain table contents
     public static class MountainEntry implements BaseColumns {
-        // TODO:
+
     }
 
 }
