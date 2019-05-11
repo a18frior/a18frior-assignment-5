@@ -21,11 +21,12 @@ import android.util.Log;
 
 public class MountainReaderDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 55;
+    public static final int DATABASE_VERSION = 59;
     public static final String DATABASE_NAME = "MountainReader.db";
     // Contacts table name
     private static final String TABLE_MOUNTAIN ="mountain";
 
+    public static final String COLUMN_NAME_ID = "ID";
     public static final String COLUMN_NAME_Name = "Name";
     public static final String COLUMN_NAME_Location = "Location";
     public static final String COLUMN_NAME_Height= "Height";
@@ -39,8 +40,8 @@ public class MountainReaderDbHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE "+ TABLE_MOUNTAIN + "("
-        + COLUMN_NAME_Name+ " TEXT PRIMARY KEY," + COLUMN_NAME_Location + " TEXT,"
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE "+ TABLE_MOUNTAIN + "(" + COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+        + COLUMN_NAME_Name+ " TEXT," + COLUMN_NAME_Location + " TEXT,"
         + COLUMN_NAME_Height + " TEXT,"+ COLUMN_NAME_InfoUrl + " TEXT," + COLUMN_NAME_Img_url+  " TEXT" +")";
 
         Log.e("CREATE", CREATE_CONTACTS_TABLE);
@@ -75,17 +76,22 @@ public class MountainReaderDbHelper extends SQLiteOpenHelper {
         /*db.close(); // Closing database connection*/
     }
 
-    public  Mountain getmountain(int id) {
+    public  Mountain getMountain(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_MOUNTAIN, new String[]{COLUMN_NAME_Name,
                 COLUMN_NAME_Location, COLUMN_NAME_Height, COLUMN_NAME_Img_url, COLUMN_NAME_InfoUrl}, COLUMN_NAME_Name + "=?",
-        new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
+        new String[]{name}, null, null, null, null);
+        if(cursor != null) {
             cursor.moveToFirst();
+        }
 
-        Mountain mountain = new Mountain(cursor.getString(0),
-                cursor.getString(1), cursor.getString(2),cursor.getString(3), cursor.getString(4));
+        if(cursor.getCount() == 0) {
+            return null;
+        }
+
+        Mountain mountain = new Mountain(cursor.getString(1),
+                cursor.getString(2), cursor.getString(3),cursor.getString(4), cursor.getString(5));
 
         return mountain;
     }
@@ -125,11 +131,11 @@ public class MountainReaderDbHelper extends SQLiteOpenHelper {
                 mountain.setImg_url(cursor.getString(3));
                 mountain.setInfoUrl(cursor.getString(4));*/
 
-                String name = cursor.getString(0);
-                String location = cursor.getString(1);
-                String height = cursor.getString(2);
-                String imgUrl = cursor.getString(3);
-                String infoURL = cursor.getString(4);
+                String name = cursor.getString(1);
+                String location = cursor.getString(2);
+                String height = cursor.getString(3);
+                String imgUrl = cursor.getString(4);
+                String infoURL = cursor.getString(5);
                 //mountain = new Mountain(
                 bergTemp.add(new Mountain(
                         name,

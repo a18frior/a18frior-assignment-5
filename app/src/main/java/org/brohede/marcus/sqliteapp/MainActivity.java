@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import android.support.v7.widget.Toolbar;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -190,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
 Mountain m=new Mountain(Name, Location, Height, Img_url,InfoUrl);
                     Log.d("Insert:", "new."+m.toString());
 
-                    db.addmountain(m);
-
-
+                    if(db.getMountain(Name) == null) {
+                        db.addmountain(m);
+                    }
                 }
                 Log.d("andras",""+db.getShopsCount());
             } catch (Exception e) {
@@ -257,8 +257,28 @@ Mountain m=new Mountain(Name, Location, Height, Img_url,InfoUrl);
         new FetchData().execute();
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_refresh) {
+            db.updatemountain();
+            new FetchData().execute();
+            return true;
+        }
+        if (id == R.id.action_delete) {
+            db.deleteShop("Matterhorn");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -6,17 +6,18 @@ package org.brohede.marcus.sqliteapp;
 
 public class Mountain {
 
+    public static final String COLUMN_NAME_ID = "ID";
     public static final String COLUMN_NAME_Name = "Name";
     public static final String COLUMN_NAME_Location = "Location";
     public static final String COLUMN_NAME_Height = "Height";
     public static final String COLUMN_NAME_Img_url = "Img_url";
     public static final String COLUMN_NAME_InfoUrl = "InfoUrl";
 
-    public static String Name;
-    public static String Location;
-    public static String Height;
-    public static String Img_url;
-    public static String InfoUrl;
+    private String Name;
+    private String Location;
+    private String Height;
+    private String Img_url;
+    private String InfoUrl;
 
     public Mountain(String inName, String inLocation, String inHeight, String inImg_url,String inInfoUrl) {
         Name = inName;
