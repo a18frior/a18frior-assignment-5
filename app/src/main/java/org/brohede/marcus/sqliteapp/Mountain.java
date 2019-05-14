@@ -1,5 +1,8 @@
 package org.brohede.marcus.sqliteapp;
 
+import java.util.Comparator;
+import java.util.jar.Attributes;
+
 /**
  * Created by marcus on 2018-04-25.
  */
@@ -19,14 +22,16 @@ public class Mountain {
     private String Img_url;
     private String InfoUrl;
 
-    public Mountain(String inName, String inLocation, String inHeight, String inImg_url,String inInfoUrl) {
+
+    public Mountain(String inName, String inLocation, String inHeight, String inImg_url, String inInfoUrl) {
         Name = inName;
         Location = inLocation;
         Height = inHeight;
         Img_url = inImg_url;
-        InfoUrl= inInfoUrl;
+        InfoUrl = inInfoUrl;
 
     }
+
 
     public Mountain(String inName) {
         Name = inName;
@@ -50,10 +55,6 @@ public class Mountain {
         return str;
     }
 
-    public String bild() {
-        String bild = Img_url;
-        return bild;
-    }
 
     public void setName(String newName) {
         Name = newName;
@@ -66,10 +67,12 @@ public class Mountain {
     public void setImg_url(String newImg_url) {
         Img_url = newImg_url;
     }
+
     public void setInfoUrl(String newInfoUrl) {
         InfoUrl = newInfoUrl;
 
     }
+
     public void setHeight(String newHeight) {
         Height = newHeight;
     }
@@ -85,7 +88,7 @@ public class Mountain {
     }
 
     public String getHeight() {
-        String getheight = Height + "m";
+        String getheight = Height;
         return getheight;
     }
 
@@ -95,6 +98,7 @@ public class Mountain {
 
 
     }
+
     public String getInfoUrl() {
         String getInfoUrl = InfoUrl;
         return getInfoUrl;
@@ -102,3 +106,15 @@ public class Mountain {
 
     }
 }
+    class MountainHeigtComparator implements Comparator<Mountain> {
+        public int compare(Mountain mountain1, Mountain mountain2) {
+            return mountain2.getHeight().compareToIgnoreCase(mountain1.getHeight());
+        }
+    }
+class MountainNameComparator implements Comparator<Mountain> {
+    public int compare(Mountain mountain1, Mountain mountain2) {
+        return mountain1.getName().compareToIgnoreCase(mountain2.getName());
+    }
+}
+
+

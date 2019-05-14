@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.Attributes;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,8 +21,9 @@ import android.util.Log;
 
 
 public class MountainReaderDbHelper extends SQLiteOpenHelper {
+    private static Context myContext;
 
-    public static final int DATABASE_VERSION = 59;
+    public static final int DATABASE_VERSION = 73;
     public static final String DATABASE_NAME = "MountainReader.db";
     // Contacts table name
     private static final String TABLE_MOUNTAIN ="mountain";
@@ -37,6 +39,13 @@ public class MountainReaderDbHelper extends SQLiteOpenHelper {
 
     public MountainReaderDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        myContext=context;
+    }
+    public boolean delete()
+
+    {
+        myContext.deleteDatabase(DATABASE_NAME);
+        return true;
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -106,7 +115,7 @@ public class MountainReaderDbHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Mountain> getAllMountains() {
-        Log.d("DBSconnection", "getAllMountains()");
+
         ArrayList <Mountain> bergTemp = new ArrayList<Mountain>();
 // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_MOUNTAIN;
@@ -158,11 +167,7 @@ public class MountainReaderDbHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
-        for (int i =0; i < bergTemp.size();i++) {
-            String log = "_"+i+"_"+ "Name:" + bergTemp.get(i).getName() + ",Location:" + bergTemp.get(i).getLocation() + "Height" + bergTemp.get(i).getHeight();
-// Writing shops to log
-            Log.d( "FridaDBSConnection: : ", log);
-        }
+
 Log.d("Frida Rockar4", ""+bergTemp.size());
         return bergTemp;
     }
@@ -176,7 +181,7 @@ Log.d("Frida Rockar4", ""+bergTemp.size());
 // return count
         return cursor.getCount();
     }
-    // Updating a shop
+
     public int updatemountain(Mountain mountain) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -186,13 +191,12 @@ Log.d("Frida Rockar4", ""+bergTemp.size());
         values.put(COLUMN_NAME_Height, mountain.getHeight());
         values.put(COLUMN_NAME_Img_url, mountain.getImg_url());
         values.put(COLUMN_NAME_InfoUrl, mountain.getInfoUrl());
-// updating row
         return db.update(TABLE_MOUNTAIN, values, COLUMN_NAME_Name+ " = ?",
         new String[]{String.valueOf(mountain.getName())});
     }
 
-    // Deleting a shop
-    public void deleteShop(Mountain mountain) {
+
+    public void deletemountain(Mountain mountain) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MOUNTAIN, COLUMN_NAME_Name + " = ?",
         new String[] { String.valueOf(mountain.getName()) });

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SQLiteApp</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="action_delete">Delete</string>
+    <string name="action_sorth">Sort by Height</string>
+    <string name="action_sortn">Sort by Name</string>
 </resources>
